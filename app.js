@@ -5,7 +5,9 @@ const config = require('config')
 var cors = require('cors')
 
 const register = require('./routes/register.js');
+const account = require('./routes/account.js');
 const PORT = config.get('PORT');
+const auth = require('./middleware/auth.middleware.js')
 
 const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
 
@@ -17,6 +19,10 @@ var corsOptions = {
 }
 
 app.use('/api/auth',cors(corsOptions), register);
+app.use('/api',cors(corsOptions), auth,account);
+
+
+
 
 async function start() {
   try {

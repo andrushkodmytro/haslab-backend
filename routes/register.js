@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
 const bcrypt = require('bcrypt');
+const config = require('config')
+
+const User = require('../models/User.js');
 
 const router = Router();
-
-const TOKEN_STR = 'dima';
+const JWT_SECRET = config.get('JWT_SECRET')
 
 router.post('/register', async (req, res) => {
   try {
@@ -32,6 +33,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(req.headers)
 
     const newUser = await User.findOne({ email });
 
@@ -50,11 +52,17 @@ router.post('/login', async (req, res) => {
         id: newUser._id,
         email: newUser.email,
       },
-      TOKEN_STR,
+      JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    res.json({ token });
+    const user = {
+      id: newUser._id,
+      email: newUser.email,
+
+    }
+
+    res.json({ token, user });
   } catch (e) {
     res.status(500).json({ message: 'Something went wrong!' });
   }
