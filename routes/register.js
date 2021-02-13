@@ -1,16 +1,16 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const config = require('config')
+const config = require('config');
 
 const User = require('../models/User.js');
 
 const router = Router();
-const JWT_SECRET = config.get('JWT_SECRET')
+const JWT_SECRET = config.get('JWT_SECRET');
 
 router.post('/register', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, firstName, lastName } = req.body;
 
     const newUser = await User.findOne({ email });
 
@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ email, password: hashedPassword, firstName, lastName });
 
     await user.save();
 
@@ -33,7 +33,6 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.headers)
 
     const newUser = await User.findOne({ email });
 
@@ -50,7 +49,6 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign(
       {
         id: newUser._id,
-        email: newUser.email,
       },
       JWT_SECRET,
       { expiresIn: '1h' }
@@ -59,8 +57,7 @@ router.post('/login', async (req, res) => {
     const user = {
       id: newUser._id,
       email: newUser.email,
-
-    }
+    };
 
     res.json({ token, user });
   } catch (e) {
