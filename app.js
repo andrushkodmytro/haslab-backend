@@ -20,7 +20,7 @@ var corsOptions = {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
-app.use('/api/auth',cors(corsOptions), register);
+app.use('/api/auth',cors(), register);
 app.use('/api',cors(corsOptions),account);
 
 async function start() {
