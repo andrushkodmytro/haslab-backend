@@ -21,7 +21,7 @@ var corsOptions = {
 }
 
 app.use('/api/auth',cors(), register);
-app.use('/api',cors(corsOptions),account);
+app.use('/api',cors(),account);
 
 async function start() {
   try {
