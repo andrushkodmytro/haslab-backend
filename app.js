@@ -31,7 +31,7 @@ async function start() {
       useCreateIndex: true,
     });
 
-    app.listen(PORT, ()=>{console.log('Server started')});
+    app.listen(process.env.PORT || PORT, ()=>{console.log('Server started')});
   } catch (e) {
     console.log(e, 'error');
   }
