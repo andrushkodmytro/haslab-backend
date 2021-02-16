@@ -2,13 +2,16 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const config = require('config')
-var cors = require('cors')
+const PORT = config.get('PORT');
+const auth = require('./middleware/auth.middleware.js')
 
+var cors = require('cors')
 
 const register = require('./routes/register.js');
 const account = require('./routes/account.js');
-const PORT = config.get('PORT');
-const auth = require('./middleware/auth.middleware.js')
+const companies = require('./routes/companies.js');
+const products = require('./routes/products.js');
+const orders = require('./routes/orders.js');
 
 const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
 
@@ -21,7 +24,10 @@ var corsOptions = {
 }
 
 app.use('/api/auth',cors(), register);
-app.use('/api',cors(),account);
+app.use('/api/account',cors(),account);
+app.use('/api/companies',cors(),companies);
+app.use('/api/products',cors(),products);
+app.use('/api/orders',cors(),orders);
 
 async function start() {
   try {
@@ -31,7 +37,7 @@ async function start() {
       useCreateIndex: true,
     });
 
-    app.listen(process.env.PORT || PORT, ()=>{console.log('Server started')});
+    app.listen(PORT, ()=>{console.log('Server started')});
   } catch (e) {
     console.log(e, 'error');
   }

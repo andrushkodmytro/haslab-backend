@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('config');
 
-const User = require('../models/User.js');
+const Users = require('../models/Users.js');
 
 const router = Router();
 const JWT_SECRET = config.get('JWT_SECRET');
@@ -12,7 +12,7 @@ router.post('/register', async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body;
 
-    const newUser = await User.findOne({ email });
+    const newUser = await Users.findOne({ email });
 
     if (newUser) {
       return res.status(400).json({ message: 'This user is already exist' });
@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const user = new User({ email, password: hashedPassword, firstName, lastName });
+    const user = new Users({ email, password: hashedPassword, firstName, lastName });
 
     await user.save();
 
@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const newUser = await User.findOne({ email });
+    const newUser = await Users.findOne({ email });
 
     if (!newUser) {
       return res.status(401).json({ message: 'This user not found' });

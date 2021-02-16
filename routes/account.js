@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth.middleware.js');
-const User = require('../models/User.js');
+const Users = require('../models/Users.js');
 
 const config = require('config');
 const JWT_SECRET = config.get('JWT_SECRET');
 const router = Router();
 
-router.get('/account', async (req, res) => {
+router.get('/', async (req, res) => {
   const { headers } = req;
 
   try {
@@ -19,7 +19,7 @@ router.get('/account', async (req, res) => {
 
     const { id } = jwt.verify(token, JWT_SECRET);
 
-    const user = await User.findById(id).lean();
+    const user = await Users.findById(id).lean();
     const { email, firstName, lastName } = user;
 
     res.json({ email, firstName, lastName });
@@ -41,7 +41,7 @@ router.get('/account', async (req, res) => {
 
 //     const { id } = jwt.verify(token, JWT_SECRET);
 
-//     const user = await User.findById(id).lean()
+//     const user = await Users.findById(id).lean()
 
 //     const {email, firstName, lastName} = user;
 
