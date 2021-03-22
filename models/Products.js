@@ -1,8 +1,14 @@
-const { Schema, model, Types } = require('mongoose');
+const { Schema, model, Types } = require('mongoose')
 
-const schema = new Schema({
-  name: { type: 'String', required: true, },
-  companyId: { type: Types.ObjectId , ref:'Companies'},
-}, { timestamps: true });
+const schema = new Schema(
+    {
+        name: { type: 'String', required: true },
+        description: { type: 'String', required: true },
+        price: { type: 'Number', required: true },
+        unit: { type: 'string', default: 'Pc.' },
+        companyId: { type: Types.ObjectId, ref: 'Company' },
+    },
+    { timestamps: true }
+)
 
-module.exports = model('Products', schema);
+module.exports = model('Product', schema)

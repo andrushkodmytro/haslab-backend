@@ -1,11 +1,13 @@
-const { Router } = require('express');
+const { Router } = require('express')
 // const auth = require('../middleware/auth.middleware.js');
-const router = Router();
+const router = Router()
 
-const  ordersController= require('../controllers/orders.js')
+const ordersController = require('../controllers/orders.js')
 
-router.get('/', ordersController.ordersGet );
+router.get('/', ordersController.ordersGet)
 
-router.post('/', ordersController.ordersPost);
+router.get('/new', ordersController.newOrdersPost)
 
-module.exports = router;
+router.post('/new', ordersController.ordersPost)
+
+module.exports = router

@@ -1,10 +1,27 @@
-const { Schema, model, Types } = require('mongoose');
+const { Schema, model, Types } = require('mongoose')
 
-const schema = new Schema({
-  name: { type: 'String', required: true, },
-  companyId: { type: Types.ObjectId , ref:'Companies', required: true,},
-  productId: { type: Types.ObjectId , ref:'Products', required: true,},
-  quantity:{ type:Number, required: true, default: 1}
-}, { timestamps: true });
+const schema = new Schema(
+    {
+        companyId: { type: Types.ObjectId, ref: 'Company', required: true },
+        client: { type: String, required: true },
+        status: {
+            type: String,
+            enum: ['new', 'pending', 'completed', 'canceled'],
+            default: 'new',
+        },
+        orderItems: [
+            {
+                productId: {
+                    type: Types.ObjectId,
+                    ref: 'Product',
+                    required: true,
+                },
+                quantity: { type: Number, required: true, min: 0, default: 1 },
+                sum: { type: Number, required: true },
+            },
+        ],
+    },
+    { timestamps: true }
+)
 
-module.exports = model('Orders', schema);
+module.exports = model('Order', schema)
