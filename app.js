@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const config = require('config');
 const PORT = config.get('PORT');
-const auth = require('./middleware/auth.middleware.js');
+// const auth = require('./middleware/auth.middleware.js');
 
 var cors = require('cors');
 
@@ -20,11 +20,11 @@ const Uri = 'mongodb://127.0.0.1:27017/newdatabase';
 
 app.use(express.json({ extended: false }));
 
-var corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true,
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+// var corsOptions = {
+//   origin: 'http://localhost:3000',
+//   credentials: true,
+//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
 
 app.use(morgan('tiny'));
 app.use('/api/auth', cors(), register);

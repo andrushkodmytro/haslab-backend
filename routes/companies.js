@@ -1,11 +1,11 @@
-const { Router } = require('express')
-const auth = require('../middleware/auth.middleware.js')
+const { Router } = require('express');
+const auth = require('../middleware/auth.middleware.js');
 
-const router = Router()
-const companiesController = require('../controllers/companies')
+const router = Router();
+const companiesController = require('../controllers/companies');
 
-router.get('/', companiesController.companiesGet)
+router.get('/', companiesController.companiesGet);
 
-router.post('/', companiesController.companiesPost)
+router.post('/', companiesController.companiesPost);
 
-module.exports = router
+module.exports = router;
