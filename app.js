@@ -11,10 +11,11 @@ const swaggerUi = require('swagger-ui-express');
 var cors = require('cors');
 
 const register = require('./routes/register.js');
-const account = require('./routes/account.js');
+const accounts = require('./routes/accounts.js');
 const companies = require('./routes/companies.js');
 const products = require('./routes/products.js');
 const orders = require('./routes/orders.js');
+const categories = require('./routes/categories.js');
 
 // const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
 
@@ -47,10 +48,11 @@ app.use(express.json({ extended: false }));
 
 app.use(morgan('tiny'));
 app.use('/api/auth', cors(), register);
-app.use('/api/account', cors(), account);
+app.use('/api/account', cors(), accounts);
 app.use('/api/companies', cors(), companies);
 app.use('/api/products', cors(), products);
 app.use('/api/orders', cors(), orders);
+app.use('/api/categories', cors(), categories);
 
 async function start() {
   try {
