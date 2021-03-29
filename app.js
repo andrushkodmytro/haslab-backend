@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const config = require('config');
 const PORT = config.get('PORT');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 // const auth = require('./middleware/auth.middleware.js');
 
 var cors = require('cors');
@@ -17,6 +19,23 @@ const orders = require('./routes/orders.js');
 // const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
 
 const Uri = 'mongodb://127.0.0.1:27017/newdatabase';
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Custom Api',
+      description: 'Custom Api info',
+      contact: {
+        name: 'Amazing Developer',
+      },
+    },
+    servers: ['http://localhost:5000'],
+  },
+  apis: ['./routes/*.js'],
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(express.json({ extended: false }));
 

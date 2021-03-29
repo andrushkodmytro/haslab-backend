@@ -1,11 +1,18 @@
 module.exports = (model) => {
   return async (req, res, next) => {
-    const { page = 1, limit = 5 } = req.query;
+    const { page = 1, limit = 5, sortBy, orderBy } = req.query;
+
     const paginatedResult = {};
+    const sort = {};
+
+    if (sortBy && orderBy) {
+      sort[req.query.sortBy] = orderBy === 'desc' ? -1 : 1;
+    }
 
     try {
       paginatedResult.data = await model
         .find()
+        .sort(sort)
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .exec();

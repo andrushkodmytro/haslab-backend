@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
-const auth = require('../middleware/auth.middleware.js');
+// const auth = require('../middleware/auth.middleware.js');
 const Users = require('../models/Users.js');
 
 const config = require('config');
@@ -32,7 +32,6 @@ router.get('/', async (req, res) => {
 //   const { headers } = req;
 
 //   try {
-//   console.log(req,body)
 //     const token = headers.authorization.split(' ')[1];`
 
 //     if (!token) {
