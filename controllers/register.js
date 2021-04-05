@@ -35,7 +35,7 @@ exports.registerPost = async (req, res) => {
 
 exports.loginPost = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, remember } = req.body;
 
     const newUser = await Users.findOne({ email }).select('_id email companyId firstName lastName password');
 
@@ -49,12 +49,18 @@ exports.loginPost = async (req, res) => {
       return res.status(401).json({ message: 'This user not found' });
     }
 
+    let expiresIn = '1h';
+
+    if (remember === true) {
+      expiresIn = '7d';
+    }
+
     const token = jwt.sign(
       {
         id: newUser._id,
       },
       JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn }
     );
 
     var date = new Date();
@@ -76,4 +82,3 @@ exports.loginPost = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong!' });
   }
 };
-

@@ -7,23 +7,10 @@ const config = require('config');
 const JWT_SECRET = config.get('JWT_SECRET');
 
 exports.categoriesGet = async (req, res) => {
-  const { headers } = req;
-
   try {
-    const token = headers.authorization.split(' ')[1];
-
-    if (!token) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
-
-    const { id } = jwt.verify(token, JWT_SECRET);
-
-    const user = await Users.findById(id).lean();
-    const { companyId } = user;
-
-    const categories = await Categories.find(companyId);
-
-    res.status(200).json(categories);
+    res.json({
+      ...res.paginatedResult,
+    });
   } catch (e) {
     res.status(500).json({ message: 'Something went wrong' });
   }
