@@ -26,6 +26,56 @@ exports.accountsGet = async (req, res) => {
   }
 };
 
+exports.accountPost = async (req, res) => {
+  const { headers } = req;
+  const { firstName, lastName, email } = req.body;
+
+  try {
+    const token = headers.authorization.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+
+    const { id } = jwt.verify(token, JWT_SECRET);
+
+    // // const { companyId } = await Users.findById(id).lean();
+
+    if (!firstName) {
+      res.status(422).json({ message: 'firstName is required.' });
+    }
+
+    if (!lastName) {
+      res.status(422).json({ message: 'lastName is required.' });
+    }
+
+    if (!email) {
+      res.status(422).json({ message: 'email is required.' });
+    }
+
+    const { _id: userId } = await Users.findById(id);
+
+    if (!userId) {
+      res.status(422).json({
+        message: 'user not found',
+      });
+    }
+
+    const user = await Users.findByIdAndUpdate(
+      { _id: userId },
+      { $set: { firstName, lastName, email } },
+      { new: true }
+    );
+
+    res.status(201).json({
+      message: 'User is updated',
+      user: { firstName: user.firstName, lastName: user.lastName, email: user.email },
+    });
+  } catch (e) {
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
 // exports.accountsPost = async (req, res) => async(req, res) => {
 //   const { headers } = req;
 

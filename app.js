@@ -17,9 +17,9 @@ const products = require('./routes/products.js');
 const orders = require('./routes/orders.js');
 const categories = require('./routes/categories.js');
 
-// const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
+const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
 
-const Uri = 'mongodb://127.0.0.1:27017/newdatabase';
+// const Uri = 'mongodb://127.0.0.1:27017/newdatabase';
 
 const swaggerOptions = {
   swaggerDefinition: {

@@ -18,7 +18,7 @@ exports.productsGet = async (req, res) => {
 exports.productsPost = async (req, res) => {
   try {
     const { headers } = req;
-    const { name, description, price, categoryId } = req.body;
+    const { name, description, price, categoryId, image } = req.body;
 
     const token = headers.authorization.split(' ')[1];
 
@@ -28,7 +28,7 @@ exports.productsPost = async (req, res) => {
 
     const { id } = jwt.verify(token, JWT_SECRET);
 
-    const { companyId } = await Users.findById(id).lean();
+    // const { companyId } = await Users.findById(id).lean();
 
     if (!name) {
       res.status(422).json({ message: 'Product name is required.' });
@@ -46,13 +46,13 @@ exports.productsPost = async (req, res) => {
       });
     }
 
-    const newProduct = new Products({ name, description, price, companyId, categoryId });
+    const newProduct = new Products({ name, description, price, categoryId, image });
 
     await newProduct.save();
 
     res.status(201).json({
       message: 'New product is created.',
-      product: { name, companyId },
+      product: { name },
     });
   } catch (e) {
     res.status(500).json({ message: 'Something went wrong' });
@@ -60,21 +60,16 @@ exports.productsPost = async (req, res) => {
 };
 
 exports.newProductsGet = async (req, res) => {
-  const { headers } = req;
+  // const { headers } = req;
 
   try {
-    const token = headers.authorization.split(' ')[1];
+    // const token = headers.authorization.split(' ')[1];
 
-    if (!token) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
+    // if (!token) {
+    //   return res.status(401).json({ message: 'Not authorized' });
+    // }
 
-    const { id } = jwt.verify(token, JWT_SECRET);
-
-    const user = await Users.findById(id).lean();
-    const { companyId } = user;
-
-    const categories = await Categories.find({ companyId: companyId }).select('_id companyId name description');
+    const categories = await Categories.find().select('_id companyId name description');
 
     res.status(200).json(categories);
   } catch (e) {

@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const schema = new Schema(
   {
@@ -6,7 +6,6 @@ const schema = new Schema(
     password: { type: 'String', required: true },
     firstName: { type: 'String', required: true },
     lastName: { type: 'String', required: true },
-    companyId: { type: Types.ObjectId, ref: 'Company', default: null },
   },
   { timestamps: true }
 );
