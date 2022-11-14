@@ -6,7 +6,7 @@ const schema = new Schema(
     categoryId: { type: Types.ObjectId, ref: 'Category' },
     description: { type: 'String', required: true },
     price: { type: 'Number', required: true },
-    image: { type: 'String'},
+    image: { type: 'String' },
   },
   { timestamps: true }
 );

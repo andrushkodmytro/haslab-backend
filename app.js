@@ -16,6 +16,7 @@ const companies = require('./routes/companies.js');
 const products = require('./routes/products.js');
 const orders = require('./routes/orders.js');
 const categories = require('./routes/categories.js');
+const carts = require('./routes/carts.js');
 
 const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
 
@@ -53,6 +54,7 @@ app.use('/api/companies', cors(), companies);
 app.use('/api/products', cors(), products);
 app.use('/api/orders', cors(), orders);
 app.use('/api/categories', cors(), categories);
+app.use('/api/carts', cors(), carts);
 
 async function start() {
   try {
