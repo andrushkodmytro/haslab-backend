@@ -10,10 +10,10 @@ exports.registerPost = async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body;
 
-    const newUser = await Users.findOne({ email });
+    const newUser = await Users.findOne({ email }).lean().exec();
 
     if (newUser) {
-      return res.status(400).json({ message: 'This user is already exist' });
+      return res.status(409).json({ message: 'This user is already exist' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -23,6 +23,7 @@ exports.registerPost = async (req, res) => {
       password: hashedPassword,
       firstName,
       lastName,
+      roles: ['user'],
     });
 
     await user.save();
@@ -37,7 +38,7 @@ exports.loginPost = async (req, res) => {
   try {
     const { email, password, remember } = req.body;
 
-    const newUser = await Users.findOne({ email }).select('_id email companyId firstName lastName password');
+    const newUser = await Users.findOne({ email }).select('_id email companyId firstName lastName password roles');
 
     if (!newUser) {
       return res.status(401).json({ message: 'This user not found' });
@@ -75,6 +76,7 @@ exports.loginPost = async (req, res) => {
         companyId: newUser.companyId,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
+        roles: newUser.roles,
         expiry: expiry,
       },
     });

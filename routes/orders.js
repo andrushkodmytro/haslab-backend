@@ -1,13 +1,15 @@
 const { Router } = require('express');
 // const auth = require('../middleware/auth.middleware.js');
 const router = Router();
+const Orders = require('../models/Orders');
+const paginate = require('../middleware/paginate.middleware');
 
 const ordersController = require('../controllers/orders.js');
 
-router.get('/', ordersController.ordersGet);
+router.get('/', paginate(Orders), ordersController.ordersGet);
+router.post('/', ordersController.ordersPost);
 
-router.get('/new', ordersController.newOrdersPost);
+// router.get('/', ordersController.newOrdersPost);
 
-router.post('/new', ordersController.ordersPost);
 
 module.exports = router;

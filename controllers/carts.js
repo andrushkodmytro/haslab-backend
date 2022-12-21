@@ -22,7 +22,7 @@ exports.cartsGet = async (req, res) => {
 
     res.json({
       message: 'Get',
-      data: cart,
+      data: cart || [],
     });
   } catch (e) {
     res.status(500).json({ message: 'Something went wrong' });

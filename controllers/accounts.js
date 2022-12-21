@@ -76,50 +76,12 @@ exports.accountPost = async (req, res) => {
   }
 };
 
-// exports.accountsPost = async (req, res) => async(req, res) => {
-//   const { headers } = req;
-
-//   try {
-//     const token = headers.authorization.split(' ')[1];`
-
-//     if (!token) {
-//       return res.status(401).json({ message: 'Not authorized' });
-//     }
-
-//     const { id } = jwt.verify(token, JWT_SECRET);
-
-//     const user = await Users.findById(id).lean()
-
-//     const {email, firstName, lastName} = user;
-
-//     res.json({email, firstName, lastName})
-
-//   } catch (e) {
-//     res.status(500).json({message: 'Something went wrong'})
-//   }
-
-// }
-
-// router.post('/account/logo',upload.single('avatar'), auth, async(req, res) => {
-//   const { headers } = req;
-
-//   try {
-//     const token = headers.authorization.split(' ')[1];`
-
-//     if (!token) {
-//       return res.status(401).json({ message: 'Not authorized' });
-//     }
-
-//     const { id } = jwt.verify(token, JWT_SECRET);
-
-//     const user = await Users.findById(id).lean()
-
-//     const {email, firstName, lastName} = user;
-
-//     res.json({email, firstName, lastName})
-
-//   } catch (e) {
-//     res.status(500).json({message: 'Something went wrong'})
-//   }
-
-// });
+exports.usersGet = async (req, res) => {
+  try {
+    res.json({
+      ...res.paginatedResult,
+    });
+  } catch (e) {
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};

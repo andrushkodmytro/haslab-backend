@@ -2,14 +2,25 @@ const { Schema, model, Types } = require('mongoose');
 
 const schema = new Schema(
   {
-    companyId: { type: Types.ObjectId, ref: 'Company', required: true },
-    client: { type: String, required: true },
+    user: {
+      type: Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    contactInfo: {
+      first_name: { type: 'String', required: true },
+      last_name: { type: 'String', required: true },
+      phone: { type: 'String', required: true },
+      email: { type: 'String', required: true },
+      city: { type: 'String', required: true },
+      address: { type: 'String', required: true },
+    },
     status: {
       type: String,
       enum: ['new', 'pending', 'completed', 'canceled'],
       default: 'new',
     },
-    orderItems: [
+    products: [
       {
         productId: {
           type: Types.ObjectId,
@@ -17,7 +28,7 @@ const schema = new Schema(
           required: true,
         },
         quantity: { type: Number, required: true, min: 0, default: 1 },
-        sum: { type: Number, required: true },
+        sum: { type: Number, required: true, min: 0, default: 0 },
       },
     ],
   },
