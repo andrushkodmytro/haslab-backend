@@ -37,9 +37,9 @@ exports.ordersPost = async (req, res) => {
 
     const cart = await Carts.findOne({ owner: id });
 
-    if (!cart) {
+    if (!cart || !cart?.products?.length) {
       res.status(422).json({
-        message: 'Products productId is required.',
+        message: 'Products is required.',
       });
     }
     const orderProducts = cart.products.map(({ productId, quantity, price }) => {

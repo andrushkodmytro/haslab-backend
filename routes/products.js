@@ -67,5 +67,6 @@ const productsController = require('../controllers/products.js');
 router.get('/', paginate(Products), productsController.productsGet);
 router.get('/new', productsController.newProductsGet);
 router.post('/', productsController.productsPost);
+router.get('/:id', productsController.productGetById);
 
 module.exports = router;

@@ -6,6 +6,7 @@ module.exports = (model) => {
     const sort = {};
 
     if (sortBy && orderBy) {
+      console.log(sortBy, orderBy)
       sort[req.query.sortBy] = orderBy === 'desc' ? -1 : 1;
     }
 

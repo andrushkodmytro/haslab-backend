@@ -59,6 +59,22 @@ exports.productsPost = async (req, res) => {
   }
 };
 
+exports.productGetById = async (req, res) => {
+  const { params } = req;
+
+  try {
+    if (!params.id) {
+      res.status(422).json({ message: 'id is required.' });
+    }
+
+    const product = await Products.findById(params.id).lean();
+
+    res.status(200).json(product);
+  } catch (e) {
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
 exports.newProductsGet = async (req, res) => {
   // const { headers } = req;
 
