@@ -31,12 +31,11 @@ exports.categoriesPost = async (req, res) => {
       return res.status(421).json({ message: 'Category name is required.' });
     }
 
-    const { id } = jwt.verify(token, JWT_SECRET);
+    // const { id } = jwt.verify(token, JWT_SECRET);
 
-    const user = await Users.findById(id).lean();
-    const { companyId } = user;
+    // const user = await Users.findById(id).lean();
 
-    let data = { name, companyId };
+    let data = { name };
 
     if (description) {
       data.description = description;

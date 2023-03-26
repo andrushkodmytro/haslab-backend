@@ -18,7 +18,8 @@ const orders = require('./routes/orders.js');
 const categories = require('./routes/categories.js');
 const carts = require('./routes/carts.js');
 
-const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
+// const Uri = 'mongodb+srv://dbmern:User2020@cluster0.zy8tt.mongodb.net/dbmern?retryWrites=true&w=majority';
+const Uri = 'mongodb://127.0.0.1:27017/marketdb';
 
 // const Uri = 'mongodb://127.0.0.1:27017/newdatabase';
 
