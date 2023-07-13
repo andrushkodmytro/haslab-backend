@@ -1,5 +1,5 @@
 const Companies = require('../models/Companies');
-const Users = require('../models/Users');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
@@ -18,7 +18,7 @@ exports.companiesGet = async (req, res) => {
     const { id } = jwt.verify(token, JWT_SECRET);
 
     const allCompanies = await Companies.find();
-    const companies = await Users.find({ _id: id }).populate('companyId').select('companyId').lean();
+    const companies = await User.find({ _id: id }).populate('companyId').select('companyId').lean();
 
     res.json({ data: { allCompanies, companies } });
   } catch (e) {
@@ -49,7 +49,7 @@ exports.companiesPost = async (req, res) => {
     const newCompany = await new Companies({ name, userId: [userId] });
     await newCompany.save();
 
-    const user = await Users.updateOne({ _id: userId }, { $set: { companyId: newCompany._id } });
+    const user = await User.updateOne({ _id: userId }, { $set: { companyId: newCompany._id } });
 
     res.status(201).json({
       message: 'New company is created',

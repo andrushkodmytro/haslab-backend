@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 // const auth = require('../middleware/auth.middleware.js');
 const User = require('../models/User.js');
-const Categories = require('../models/Categories.js');
+const Rooms = require('../models/Room.js');
 
 const config = require('config');
 const JWT_SECRET = config.get('JWT_SECRET');
 
-exports.categoriesGet = async (req, res) => {
+exports.roomsGet = async (req, res) => {
   try {
     res.json({
       ...res.paginatedResult,
@@ -16,7 +16,7 @@ exports.categoriesGet = async (req, res) => {
   }
 };
 
-exports.categoriesPost = async (req, res) => {
+exports.roomsPost = async (req, res) => {
   const { headers } = req;
   const { name, description } = req.body;
 
@@ -28,7 +28,7 @@ exports.categoriesPost = async (req, res) => {
     }
 
     if (!name) {
-      return res.status(421).json({ message: 'Category name is required.' });
+      return res.status(421).json({ message: 'Room name is required.' });
     }
 
     // const { id } = jwt.verify(token, JWT_SECRET);
@@ -41,7 +41,7 @@ exports.categoriesPost = async (req, res) => {
       data.description = description;
     }
 
-    const newCategory = new Categories(data);
+    const newCategory = new Rooms(data);
     newCategory.save();
 
     res.status(201).json({ message: 'Ok' });

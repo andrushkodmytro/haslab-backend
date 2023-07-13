@@ -1,5 +1,5 @@
 const Orders = require('../models/Orders');
-const Users = require('../models/Users');
+const User = require('../models/User');
 const Products = require('../models/Products');
 const Carts = require('../models/Carts');
 const jwt = require('jsonwebtoken');
@@ -29,7 +29,7 @@ exports.ordersPost = async (req, res) => {
 
     const { id } = jwt.verify(token, JWT_SECRET);
 
-    const user = await Users.findOne({ _id: id });
+    const user = await User.findOne({ _id: id });
 
     if (!user) {
       return res.status(401).json({ message: 'Not authorized' });

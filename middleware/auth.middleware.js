@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const User = require('../models/User');
 
 const JWT_SECRET = config.get('JWT_SECRET');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   const { headers, method } = req;
   if (method === 'OPTIONS') {
     return next();
@@ -18,7 +19,13 @@ module.exports = (req, res, next) => {
 
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    req.user = decoded;
+    const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+
+    req.user = user;
     next();
   } catch (e) {
     return res.status(401).json({ message: 'Not authorized' });

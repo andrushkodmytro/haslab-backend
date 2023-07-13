@@ -1,29 +1,29 @@
 const jwt = require('jsonwebtoken');
 // const auth = require('../middleware/auth.middleware.js');
-const Users = require('../models/Users.js');
+const User = require('../models/User.js');
 
 const config = require('config');
 const JWT_SECRET = config.get('JWT_SECRET');
 
 exports.accountsGet = async (req, res) => {
-  const { headers } = req;
+  // const { headers } = req;
 
-  try {
-    const token = headers.authorization.split(' ')[1];
+  // try {
+  //   const token = headers.authorization.split(' ')[1];
 
-    if (!token) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
+  //   if (!token) {
+  //     return res.status(401).json({ message: 'Not authorized' });
+  //   }
 
-    const { id } = jwt.verify(token, JWT_SECRET);
+  //   const { id } = jwt.verify(token, JWT_SECRET);
 
-    const user = await Users.findById(id).lean();
-    const { email, firstName, lastName } = user;
+  //   const user = await User.findById(id).lean();
+  //   const { email, firstName, lastName } = user;
 
-    res.json({ email, firstName, lastName });
-  } catch (e) {
-    res.status(500).json({ message: 'Something went wrong' });
-  }
+  //   res.json({ email, firstName, lastName });
+  // } catch (e) {
+  //   res.status(500).json({ message: 'Something went wrong' });
+  // }
 };
 
 exports.accountPost = async (req, res) => {
@@ -39,7 +39,7 @@ exports.accountPost = async (req, res) => {
 
     const { id } = jwt.verify(token, JWT_SECRET);
 
-    // // const { companyId } = await Users.findById(id).lean();
+    // // const { companyId } = await User.findById(id).lean();
 
     if (!firstName) {
       res.status(422).json({ message: 'firstName is required.' });
@@ -53,7 +53,7 @@ exports.accountPost = async (req, res) => {
       res.status(422).json({ message: 'email is required.' });
     }
 
-    const { _id: userId } = await Users.findById(id);
+    const { _id: userId } = await User.findById(id);
 
     if (!userId) {
       res.status(422).json({
@@ -61,7 +61,7 @@ exports.accountPost = async (req, res) => {
       });
     }
 
-    const user = await Users.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       { _id: userId },
       { $set: { firstName, lastName, email } },
       { new: true }
@@ -76,7 +76,7 @@ exports.accountPost = async (req, res) => {
   }
 };
 
-exports.usersGet = async (req, res) => {
+exports.UserGet = async (req, res) => {
   try {
     res.json({
       ...res.paginatedResult,
