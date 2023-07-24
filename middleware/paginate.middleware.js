@@ -1,6 +1,6 @@
 module.exports = (model) => {
   return async (req, res, next) => {
-    const { page = 1, limit = 5, sortBy, orderBy, ...filters } = req.query;
+    const { page = 1, limit = 5, sortBy, orderBy, search, ...filters } = req.query;
 
     const paginatedResult = {};
     const sort = {};
@@ -14,6 +14,10 @@ module.exports = (model) => {
     newFilters = {};
     for (let key in filters) {
       newFilters[key] = JSON.parse(filters[key]);
+    }
+
+    if(search){
+      newFilters.name= { $regex: search, $options: "i" }
     }
 
     try {

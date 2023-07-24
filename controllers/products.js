@@ -71,7 +71,7 @@ exports.productGetById = async (req, res) => {
       res.status(422).json({ message: 'id is required.' });
     }
 
-    const product = await Products.findById(params.id).lean();
+    const product = await Products.findById(params.id).populate('category room').lean();
 
     res.status(200).json(product);
   } catch (e) {
